@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>about:debugging</title>
+    <link rel="stylesheet" href="chrome://global/skin/global.css" type="text/css"/>
+    <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" type="text/css"/>
+    <!-- this chrome URL is not accessible from content so we copy it locally
+         chrome://devtools/content/aboutdebugging/aboutdebugging.css
+    -->
+    <link rel="stylesheet" href="aboutdebugging.css"  type="text/css"/>
+
+    <script type="application/javascript" src="http://code.jquery.com/jquery.js"></script>
+    <script type="application/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/react/15.0.0-rc.2/react.js"></script>
+
+    <script type="application/javascript">
+    var serviceWorkers = [
+      {
+        name: 'https://www.pinterest.com/sw.js',
+        scope: 'https://www.pinterest.com/',
+        spec: 'https://www.pinterest.com/sw.js',
+        origin: 'https://www.pinterest.com',
+        'current-worker-url': 'https://www.pinterest.com/sw.js',
+        'active-cache-name': '{613cf11f-3e58-a540-bb32-3aac3955b829}',
+        'waiting-cache-name': '',
+        'push-endpoint': null
+      }
+    ];
+
+    $(function() {
+      serviceWorkers.forEach(function(worker) {
+        var template = document.querySelector('#sw');
+        template.content.querySelector('.target-name').textContent = worker.name;
+        var clone = document.importNode(template.content, true);
+        $('#service-workers').append(clone);
+      });
+    });
+    </script>
+  </head>
+
+  <body id="body">
+    <div class="app">
+      <div class="main-content">
+        <div class="tab-workers">
+          <div class="header">
+            <h1 id="tab-workers-header-name" class="header-name">Workers</h1>
+          </div>
+          <div id="workers" class="inverted-icons">
+            <div id="service-workers" class="targets">
+              <h4>Service Workers</h4>
+            </div>
+            <div id="shared-workers" class="targets">
+              <h4>Share Workers</h4>
+            </div>
+            <div id="other-workers" class="targets">
+              <h4>Other Workers</h4>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <template id="sw">
+      <div class="target">
+        <img class="target-icon" role="presentation" src="debugging-workers.svg" />
+        <div class="target-details">
+          <div class="target-name">https://www.pinterest.com/sw.js</div>
+        </div>
+        <button class="start-button">Start</button>
+      </div>
+    </template>
+  </body>
+</html>
